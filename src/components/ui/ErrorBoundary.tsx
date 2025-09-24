@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { Button } from './Button';
 import { Card } from './Card';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
@@ -100,13 +99,9 @@ export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({
   };
 
   return (
-    <ReactErrorBoundary
-      FallbackComponent={FallbackComponent}
-      onError={handleError}
-      onReset={handleReset}
-    >
-      {children}
-    </ReactErrorBoundary>
+    <div>
+      {"Unexpected error"}
+    </div>
   );
 };
 

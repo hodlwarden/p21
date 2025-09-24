@@ -5,7 +5,11 @@
 
 declare global {
   interface Window {
-    ethereum?: EthereumProvider;
+    ethereum?: {
+      request: (args: { method: string; params?: any[] }) => Promise<any>;
+      on: (event: string, callback: (...args: any[]) => void) => void;
+      removeListener: (event: string, callback: (...args: any[]) => void) => void;
+    };
     phantom?: PhantomProvider;
     solana?: any;
     starknet_argent?: any;
