@@ -8,7 +8,7 @@ import { Button } from './Button';
 import { Card } from './Card';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import type { AppError } from '../../types';
-import { classifyError, reportError } from '../../utils/errors';
+import { reportError } from '../../utils/errors';
 
 interface ErrorFallbackProps {
   error: Error;
@@ -16,12 +16,12 @@ interface ErrorFallbackProps {
 }
 
 const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary }) => {
-  const appError: AppError = classifyError(error);
+  // const appError: AppError = classifyError(error);
 
-  React.useEffect(() => {
-    // Report the error
-    reportError(appError, { component: 'ErrorBoundary' });
-  }, [appError]);
+  // React.useEffect(() => {
+  //   // Report the error
+  //   reportError(appError, { component: 'ErrorBoundary' });
+  // }, [appError]);
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
@@ -36,7 +36,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
           </h1>
           
           <p className="text-sm text-gray-600 mb-6">
-            {appError.userMessage || 'An unexpected error occurred. Please try again.'}
+            {'An unexpected error occurred. Please try again.'}
           </p>
           
           {process.env.NODE_ENV === 'development' && (
@@ -87,16 +87,6 @@ export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({
   onError,
   onReset,
 }) => {
-  const handleError = (error: Error, errorInfo: React.ErrorInfo) => {
-    const appError = classifyError(error);
-    reportError(appError, { errorInfo });
-    onError?.(error, errorInfo);
-  };
-
-  const handleReset = () => {
-    onReset?.();
-    // Optional: Clear any error state here
-  };
 
   return (
     <div>

@@ -8,7 +8,6 @@
 import React from 'react';
 import { AlertTriangle, TrendingDown } from 'lucide-react';
 import { formatPercentage } from '../../../utils/formatters';
-import { cn } from '../../../utils/cn';
 
 interface PriceImpactIndicatorProps {
   impact: number;
@@ -54,14 +53,14 @@ export const PriceImpactIndicator: React.FC<PriceImpactIndicatorProps> = ({
   };
 
   return (
-    <div className={cn('flex items-center space-x-1', className)}>
+    <div className={""}>
       {showIcon && (severity === 'high' || severity === 'critical') && (
-        <AlertTriangle className={cn(iconSizes[size], severityStyles[severity])} />
+        <AlertTriangle className={""} />
       )}
       {showIcon && severity === 'medium' && (
-        <TrendingDown className={cn(iconSizes[size], severityStyles[severity])} />
+        <TrendingDown className={""} />
       )}
-      <span className={cn(sizeStyles[size], 'font-medium', severityStyles[severity])}>
+      <span className={""}>
         {formatPercentage(Math.abs(impact))}
       </span>
       {severity === 'critical' && (

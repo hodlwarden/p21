@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '../../utils/cn';
 import type { BaseComponentProps } from '../../types';
 
 // Button variants using class-variance-authority
@@ -73,7 +72,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
-        className={cn(buttonVariants({ variant, size, fullWidth, className }))}
+        className={buttonVariants({ variant, size, fullWidth, className })}
         ref={ref}
         disabled={isDisabled}
         data-testid={testId}

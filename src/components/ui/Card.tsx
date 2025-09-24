@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { cn } from '../../utils/cn';
 import type { BaseComponentProps } from '../../types';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement>, BaseComponentProps {
@@ -17,7 +16,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
-        className={cn(
+        className={`
           // Base styles
           'rounded-lg transition-colors',
           // Variants
@@ -35,7 +34,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             'p-6': padding === 'lg',
           },
           className
-        )}
+        `}
         data-testid={testId}
         {...props}
       >
@@ -53,7 +52,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, children, testId, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-col space-y-1.5 p-6', className)}
+      className={`'flex flex-col space-y-1.5 p-6', className`}
       data-testid={testId}
       {...props}
     >
@@ -72,7 +71,7 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ className, as: Component = 'h3', children, testId, ...props }, ref) => (
     <Component
       ref={ref}
-      className={cn('text-2xl font-semibold leading-none tracking-tight text-gray-100', className)}
+      className={`'text-2xl font-semibold leading-none tracking-tight text-gray-100', className`}
       data-testid={testId}
       {...props}
     >
@@ -89,7 +88,7 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionPr
   ({ className, children, testId, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn('text-sm text-gray-400', className)}
+      className={`'text-sm text-gray-400', className`}
       data-testid={testId}
       {...props}
     >
@@ -106,7 +105,7 @@ const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
   ({ className, children, testId, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('p-6 pt-0', className)}
+      className={`'p-6 pt-0', className`}
       data-testid={testId}
       {...props}
     >
@@ -123,7 +122,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, children, testId, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex items-center p-6 pt-0', className)}
+      className={`'flex items-center p-6 pt-0', className`}
       data-testid={testId}
       {...props}
     >

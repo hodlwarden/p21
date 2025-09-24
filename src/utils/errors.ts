@@ -100,78 +100,78 @@ export class FibrousError extends Error implements AppError {
 }
 
 // Error classification utilities
-export const classifyError = (error: any): AppError => {
-  // Handle FibrousError instances
-  if (error instanceof FibrousError) {
-    return error;
-  }
+// export const classifyError = (error: any): AppError => {
+//   // Handle FibrousError instances
+//   if (error instanceof FibrousError) {
+//     return error;
+//   }
 
-  // Handle standard Error instances
-  if (error instanceof Error) {
-    const message = error.message.toLowerCase();
-    let code = ErrorCode.UNKNOWN_ERROR;
-    let userMessage = ERROR_MESSAGES.UNKNOWN_ERROR;
-    let severity = ErrorSeverity.MEDIUM;
+//   // Handle standard Error instances
+//   if (error instanceof Error) {
+//     const message = error.message.toLowerCase();
+//     let code = ErrorCode.UNKNOWN_ERROR;
+//     let userMessage = ERROR_MESSAGES.UNKNOWN_ERROR;
+//     let severity = ErrorSeverity.MEDIUM;
 
-    // Wallet errors
-    if (message.includes('user rejected') || message.includes('user denied')) {
-      code = ErrorCode.USER_REJECTED;
-      userMessage = ERROR_MESSAGES.USER_REJECTED;
-      severity = ErrorSeverity.LOW;
-    } else if (message.includes('insufficient funds') || message.includes('insufficient balance')) {
-      code = ErrorCode.INSUFFICIENT_BALANCE;
-      userMessage = ERROR_MESSAGES.INSUFFICIENT_BALANCE;
-      severity = ErrorSeverity.MEDIUM;
-    } else if (message.includes('network error') || message.includes('connection')) {
-      code = ErrorCode.NETWORK_ERROR;
-      userMessage = ERROR_MESSAGES.NETWORK_ERROR;
-      severity = ErrorSeverity.HIGH;
-    } else if (message.includes('transaction failed') || message.includes('reverted')) {
-      code = ErrorCode.TRANSACTION_FAILED;
-      userMessage = ERROR_MESSAGES.TRANSACTION_FAILED;
-      severity = ErrorSeverity.HIGH;
-    } else if (message.includes('slippage')) {
-      code = ErrorCode.SLIPPAGE_EXCEEDED;
-      userMessage = ERROR_MESSAGES.SLIPPAGE_TOO_HIGH;
-      severity = ErrorSeverity.MEDIUM;
-    } else if (message.includes('rate limit') || message.includes('too many requests')) {
-      code = ErrorCode.RATE_LIMIT_EXCEEDED;
-      userMessage = ERROR_MESSAGES.RATE_LIMIT_EXCEEDED;
-      severity = ErrorSeverity.LOW;
-    }
+//     // Wallet errors
+//     if (message.includes('user rejected') || message.includes('user denied')) {
+//       code = ErrorCode.USER_REJECTED;
+//       userMessage = ERROR_MESSAGES.USER_REJECTED;
+//       severity = ErrorSeverity.LOW;
+//     } else if (message.includes('insufficient funds') || message.includes('insufficient balance')) {
+//       code = ErrorCode.INSUFFICIENT_BALANCE;
+//       userMessage = ERROR_MESSAGES.INSUFFICIENT_BALANCE;
+//       severity = ErrorSeverity.MEDIUM;
+//     } else if (message.includes('network error') || message.includes('connection')) {
+//       code = ErrorCode.NETWORK_ERROR;
+//       userMessage = ERROR_MESSAGES.NETWORK_ERROR;
+//       severity = ErrorSeverity.HIGH;
+//     } else if (message.includes('transaction failed') || message.includes('reverted')) {
+//       code = ErrorCode.TRANSACTION_FAILED;
+//       userMessage = ERROR_MESSAGES.TRANSACTION_FAILED;
+//       severity = ErrorSeverity.HIGH;
+//     } else if (message.includes('slippage')) {
+//       code = ErrorCode.SLIPPAGE_EXCEEDED;
+//       userMessage = ERROR_MESSAGES.SLIPPAGE_TOO_HIGH;
+//       severity = ErrorSeverity.MEDIUM;
+//     } else if (message.includes('rate limit') || message.includes('too many requests')) {
+//       code = ErrorCode.RATE_LIMIT_EXCEEDED;
+//       userMessage = ERROR_MESSAGES.RATE_LIMIT_EXCEEDED;
+//       severity = ErrorSeverity.LOW;
+//     }
 
-    return new FibrousError(code, error.message, {
-      details: error,
-      userMessage,
-      severity,
-      cause: error,
-    });
-  }
+//     return new FibrousError(code, error.message, {
+//       details: error,
+//       userMessage,
+//       severity,
+//       cause: error,
+//     });
+//   }
 
-  // Handle string errors
-  if (typeof error === 'string') {
-    return new FibrousError(ErrorCode.UNKNOWN_ERROR, error, {
-      userMessage: error,
-    });
-  }
+//   // Handle string errors
+//   if (typeof error === 'string') {
+//     return new FibrousError(ErrorCode.UNKNOWN_ERROR, error, {
+//       userMessage: error,
+//     });
+//   }
 
-  // Handle object errors (e.g., from APIs)
-  if (error && typeof error === 'object') {
-    const message = error.message || error.error || 'Unknown error occurred';
-    const code = error.code || ErrorCode.UNKNOWN_ERROR;
+//   // Handle object errors (e.g., from APIs)
+//   if (error && typeof error === 'object') {
+//     const message = error.message || error.error || 'Unknown error occurred';
+//     const code = error.code || ErrorCode.UNKNOWN_ERROR;
     
-    return new FibrousError(code, message, {
-      details: error,
-      userMessage: message,
-    });
-  }
+//     return new FibrousError(code, message, {
+//       details: error,
+//       userMessage: message,
+//     });
+//   }
 
-  // Fallback for unknown error types
-  return new FibrousError(ErrorCode.UNKNOWN_ERROR, 'An unknown error occurred', {
-    details: error,
-    userMessage: ERROR_MESSAGES.UNKNOWN_ERROR,
-  });
-};
+//   // Fallback for unknown error types
+//   return new FibrousError(ErrorCode.UNKNOWN_ERROR, 'An unknown error occurred', {
+//     details: error,
+//     userMessage: ERROR_MESSAGES.UNKNOWN_ERROR,
+//   });
+// };
 
 // Error reporting utilities
 export const reportError = (error: AppError, context?: any): void => {
@@ -211,10 +211,10 @@ export const getRetryDelay = (attempt: number, baseDelay = 1000): number => {
   return Math.min(delay + jitter, 30000); // Max 30 seconds
 };
 
-// Error boundary helpers
-export const isCriticalError = (error: AppError): boolean => {
-  return error.severity === ErrorSeverity.CRITICAL;
-};
+// // Error boundary helpers
+// export const isCriticalError = (error: AppError): boolean => {
+//   return error.severity === ErrorSeverity.CRITICAL;
+// };
 
 export const shouldShowErrorToUser = (error: AppError): boolean => {
   // Don't show user rejection errors as they're expected
@@ -227,68 +227,68 @@ export const shouldShowErrorToUser = (error: AppError): boolean => {
 };
 
 // Wallet error handlers
-export const handleWalletError = (error: any): AppError => {
-  const classified = classifyError(error);
+// export const handleWalletError = (error: any): AppError => {
+//   const classified = classifyError(error);
   
-  // Add specific wallet error context
-  if (error?.code === 4001) {
-    return new FibrousError(ErrorCode.USER_REJECTED, 'User rejected the request', {
-      userMessage: 'Transaction was cancelled',
-      severity: ErrorSeverity.LOW,
-      details: error,
-    });
-  }
+//   // Add specific wallet error context
+//   if (error?.code === 4001) {
+//     return new FibrousError(ErrorCode.USER_REJECTED, 'User rejected the request', {
+//       userMessage: 'Transaction was cancelled',
+//       severity: ErrorSeverity.LOW,
+//       details: error,
+//     });
+//   }
   
-  if (error?.code === -32603) {
-    return new FibrousError(ErrorCode.RPC_ERROR, 'RPC error', {
-      userMessage: 'Network error, please try again',
-      severity: ErrorSeverity.HIGH,
-      details: error,
-    });
-  }
+//   if (error?.code === -32603) {
+//     return new FibrousError(ErrorCode.RPC_ERROR, 'RPC error', {
+//       userMessage: 'Network error, please try again',
+//       severity: ErrorSeverity.HIGH,
+//       details: error,
+//     });
+//   }
   
-  return classified;
-};
+//   return classified;
+// };
 
 // Transaction error handlers
-export const handleTransactionError = (error: any): AppError => {
-  const classified = classifyError(error);
+// export const handleTransactionError = (error: any): AppError => {
+//   const classified = classifyError(error);
   
-  // Add specific transaction error context
-  if (error?.reason?.includes('slippage')) {
-    return new FibrousError(ErrorCode.SLIPPAGE_EXCEEDED, 'Slippage tolerance exceeded', {
-      userMessage: 'Price moved unfavorably, try increasing slippage tolerance',
-      severity: ErrorSeverity.MEDIUM,
-      details: error,
-    });
-  }
+//   // Add specific transaction error context
+//   if (error?.reason?.includes('slippage')) {
+//     return new FibrousError(ErrorCode.SLIPPAGE_EXCEEDED, 'Slippage tolerance exceeded', {
+//       userMessage: 'Price moved unfavorably, try increasing slippage tolerance',
+//       severity: ErrorSeverity.MEDIUM,
+//       details: error,
+//     });
+//   }
   
-  return classified;
-};
+//   return classified;
+// };
 
-// API error handlers
-export const handleApiError = (error: any, endpoint?: string): AppError => {
-  const classified = classifyError(error);
+// // API error handlers
+// export const handleApiError = (error: any, endpoint?: string): AppError => {
+//   const classified = classifyError(error);
   
-  // Add API-specific context
-  if (error?.status === 429) {
-    return new FibrousError(ErrorCode.RATE_LIMIT_EXCEEDED, 'Rate limit exceeded', {
-      userMessage: 'Too many requests, please wait a moment',
-      severity: ErrorSeverity.LOW,
-      details: { ...error, endpoint },
-    });
-  }
+//   // Add API-specific context
+//   if (error?.status === 429) {
+//     return new FibrousError(ErrorCode.RATE_LIMIT_EXCEEDED, 'Rate limit exceeded', {
+//       userMessage: 'Too many requests, please wait a moment',
+//       severity: ErrorSeverity.LOW,
+//       details: { ...error, endpoint },
+//     });
+//   }
   
-  if (error?.status >= 500) {
-    return new FibrousError(ErrorCode.API_ERROR, 'Server error', {
-      userMessage: 'Service temporarily unavailable, please try again',
-      severity: ErrorSeverity.HIGH,
-      details: { ...error, endpoint },
-    });
-  }
+//   if (error?.status >= 500) {
+//     return new FibrousError(ErrorCode.API_ERROR, 'Server error', {
+//       userMessage: 'Service temporarily unavailable, please try again',
+//       severity: ErrorSeverity.HIGH,
+//       details: { ...error, endpoint },
+//     });
+//   }
   
-  return classified;
-};
+//   return classified;
+// };
 
 // Error recovery suggestions
 export const getRecoverySuggestion = (error: AppError): string | null => {

@@ -6,7 +6,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { cn } from '../../utils/cn';
 import type { Token } from '../../types';
 import Image from 'next/image';
 
@@ -59,12 +58,12 @@ export const TokenLogo: React.FC<TokenLogoProps> = ({
 
     return (
       <div
-        className={cn(
+        className={`
           sizeClasses[size],
           bgColor,
           'rounded-full flex items-center justify-center text-white font-bold',
           className
-        )}
+        `}
       >
         <span className={size === 'xs' ? 'text-xs' : size === 'sm' ? 'text-sm' : 'text-base'}>
           {token.symbol.slice(0, 2).toUpperCase()}
@@ -79,24 +78,23 @@ export const TokenLogo: React.FC<TokenLogoProps> = ({
   }
 
   return (
-    <div className={cn('relative', sizeClasses[size], className)}>
+    <div >
       {isLoading && (
         <div
-          className={cn(
-            sizeClasses[size],
+          className={
             'absolute inset-0 bg-gray-700 rounded-full animate-pulse'
-          )}
+          }
         />
       )}
       <Image
         src={token.logoURI}
         alt={`${token.name} logo`}
-        className={cn(
-          sizeClasses[size],
-          'rounded-full object-cover',
-          isLoading ? 'opacity-0' : 'opacity-100',
-          'transition-opacity duration-200'
-        )}
+        className={`
+            'rounded-full object-cover',
+            isLoading ? 'opacity-0' : 'opacity-100',
+            'transition-opacity duration-200'
+          `
+        }
         onLoad={handleImageLoad}
         onError={handleImageError}
       />
