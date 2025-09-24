@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { cn } from '../../utils/cn';
 import type { Token } from '../../types';
+import Image from 'next/image';
 
 interface TokenLogoProps {
   token: Token;
@@ -87,7 +88,7 @@ export const TokenLogo: React.FC<TokenLogoProps> = ({
           )}
         />
       )}
-      <img
+      <Image
         src={token.logoURI}
         alt={`${token.name} logo`}
         className={cn(

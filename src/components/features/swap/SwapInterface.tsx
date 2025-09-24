@@ -176,7 +176,7 @@ export const SwapInterface: React.FC<SwapInterfaceProps> = ({
   // Handle swap execution
   const onSubmit = async (data: SwapFormData) => {
     if (!connection) {
-      await connectWallet();
+      await connectWallet("");
       return;
     }
 
